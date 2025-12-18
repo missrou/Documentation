@@ -1,8 +1,8 @@
 # Functions
 
-Functions are reusable pieces of code that can do calculations. Pretty much like functions in any other programming language.
+函数是可复用的代码片段，能够执行计算。它们与其他编程语言中的函数基本相同。
 
-Parameter types need to be specified explicitly, return type is automatically deduced.
+参数类型需要显式指定，返回类型则会自动推断。
 
 ```rust
 fn min(s32 a, s32 b) {
@@ -15,7 +15,7 @@ fn min(s32 a, s32 b) {
 std::print(min(100, 200)); // 100
 ```
 
-To take an array parameter, specify its type as `ref auto`.
+要接受数组参数，请将其类型指定为 `ref auto`。
 
 ```rust
 fn print_array(ref auto arr) {
@@ -31,11 +31,11 @@ print_array(v);  // 0: 1
 
 ### Global Scope
 
-The global scope for the most part, works the same as a function. All statements in the global scope will get executed when the program is executed. The only difference is that new types can be defined in the global scope.
+全局作用域在很大程度上与函数类似。程序执行时，全局作用域中的所有语句都会被执行。唯一的区别在于，全局作用域中可以定义新的类型。
 
 ### Parameter packs
 
-To allow passing an unlimited number of parameters to functions, parameter packs can be used.
+为允许向函数传递无限数量的参数，可使用参数包。
 
 ```rust
 fn print_sequence(auto first, auto ... rest) {
@@ -48,13 +48,13 @@ fn print_sequence(auto first, auto ... rest) {
 print_sequence(1, 2, 3, 4, 5, 6);
 ```
 
-Parameter packs can exclusively be used as arguments to other functions. Using them automatically expands them acting as if the contained values get passed to the other function individually.
+参数包只能作为其他函数的参数使用。使用时会自动展开参数包，其作用如同将包含的值逐个传递给其他函数。
 
-The above function will print out all passed values in sequence by printing the first parameter and then removing it by not passing it on to the function during the next run.
+上述函数将按顺序打印所有传递的值：先输出第一个参数，然后在下次运行时不将其传递给函数，从而移除该参数。
 
 ### Default parameters
 
-Default parameters can be used to set a default value for parameters, if they weren't provided when the function got called.
+默认参数可用于为参数设置默认值，当函数被调用时若未提供参数即可生效。
 
 ```rust
 fn print_numbers(u32 a, u32 b, u32 c = 3, u32 d = 4) {
@@ -67,7 +67,7 @@ print_numbers(8, 9, 10, 11);    // Prints 8 9 10 11
 
 ### Reference parameters
 
-Reference parameters can be used to avoid unnecessarily copying lots of data around and are helpful when needing to pass custom types that do not have a fixed layout to a function. Instead of copying the given parameter value onto the function’s heap, a reference to the existing pattern is instead used.
+引用参数可用于避免不必要地复制大量数据，在需要向函数传递没有固定布局的自定义类型时尤为有用。它不会将给定的参数值复制到函数的堆上，而是使用对现有模式的引用。
 
 ```rust
 struct MyString {
@@ -81,7 +81,7 @@ fn print_my_string(ref MyString myString) {
 
 ### Variables
 
-Variables can be declared in a similar fashion as outside of functions but they will be put onto the function’s stack instead of being highlighted.
+变量可以在函数外部以类似的方式声明，但它们会被放置在函数的栈上，而不是被高亮显示。
 
 ```rust
 fn get_value() {
@@ -94,7 +94,7 @@ fn get_value() {
 };
 ```
 
-Custom types may also be used inside of functions
+自定义类型也可在函数内部使用
 
 ```rust
 union FloatConverter {
@@ -110,7 +110,7 @@ fn interpret_as_float(u32 integer) {
 };
 ```
 
-It is also possible to declare constants using the `const` keyword
+也可以使用`const`关键字声明常量
 
 ```rust
 fn get_value() {
@@ -125,9 +125,9 @@ std::print("{}", get_value()); // 1234
 
 #### If-Else-Statements
 
-If, Else-If and Else statements work the same as in most other C-like languages. When the condition inside a `if` head evaluates to true, the code in its body is executed. If it evaluates to false, the optional `else` block is executed.
+if、else-if 和 else 语句的工作方式与大多数其他 C 类语言相同。当 `if` 语句头中的条件评估为真时，其主体中的代码将被执行。若评估为假，则执行可选的 `else` 代码块。
 
-Curly braces are optional and only required if more than one statement is present in the body.
+花括号是可选的，仅当主体中包含多条语句时才需要使用。
 
 ```rust
 if (x > 5) {
@@ -141,7 +141,7 @@ if (x > 5) {
 
 #### While-Loops
 
-While loops work similarly to if statements. As long as the condition in the head evaluates to true, the body will continuously be executed.
+while循环的工作原理与if语句类似。只要循环头的条件评估为真，循环体就会持续执行。
 
 ```rust
 while (check()) {
@@ -151,13 +151,13 @@ while (check()) {
 
 #### For-Loops
 
-For loops are another kind of loop similar to the while loop. Its head consists of three blocks (ex. `i < 10`) that are separated by commas.
+for循环是另一种与while循环相似的循环结构。其头部由三个用逗号分隔的代码块组成（例如`i < 10`）。
 
-The first block is for declaring an iterating variable. This variable can only be used inside of the for loop. The value that this variable is declared as is the iteration that it starts at. In the given example, the first block is `u8 i = 0`.
+第一块用于声明迭代变量。该变量仅能在 for 循环内部使用，其初始值即为循环起始迭代次数。示例中第一块为 `u8 i = 0`。
 
-The second block is a condition used to determine when the loop should run again, and when it should stop. Every time the loop repeats, this condition is checked. In the given example, the second block is `i < 10`. At the start of each loop, the current value of `i` is checked to see if it is still less than `10`. When `i` becomes `10` or greater, the loop will stop executing. As long as the statement in this block resolves to `true`, the loop will continue.
+第二块是用于判断循环何时继续运行、何时终止的条件。每次循环迭代时都会检查此条件。示例中第二块为`i < 10`。每次循环开始时，系统会检查`i`当前值是否仍小于`10`。当`i`达到`10`或更大时，循环将停止执行。只要该块中的语句评估为`true`，循环就会持续进行。
 
-The third block only executes after the body of the loop. It assigns the iterating variable a new number, one that is incremented by a specified amount - in short, it increments the iterating variable. In the example, the increment used is `1`, but it doesn't have to be `1`. If it's necessary to increment by `2`, `3`, etc., just use that number instead of `1`.
+第三个代码块仅在循环主体执行后运行。它为迭代变量赋予新数值——通过指定增量进行递增。示例中采用`1`作为增量，但增量值并非固定。若需递增`2`、`3`等数值，只需将`1`替换为相应数字即可。
 
 ```rust
 // Declare a variable called i available only inside the for
@@ -168,7 +168,7 @@ for (u8 i = 0, i < 10, i = i + 1) {
 }
 ```
 
-The assignment operator `+=` can also be used for incrementing a for loop:
+赋值运算符 `+=` 也可用于递增 for 循环：
 
 ```rust
 for (u8 i = 0, i < 10, i += 1) {
@@ -178,15 +178,15 @@ for (u8 i = 0, i < 10, i += 1) {
 
 ### Loop control flow statements
 
-Inside of loops, the `break` and `continue` keyword may be used to control the execution flow inside the loop.
+在循环内部，可使用`break`和`continue`关键字控制循环内的执行流程。
 
-When a `break` statement is reached, the loop is terminated immediately and code flow continues after the loop. When a `continue` statement is reached, the current iteration is terminated immediately and code flow continues at the start of the loop again, checking the condition again.
+当遇到`break`语句时，循环立即终止，代码流程跳转至循环外部继续执行。当遇到`continue`语句时，当前迭代立即终止，代码流程返回循环开头重新执行，并再次检查循环条件。
 
 ### Return statements
 
-In order to return a value from a function, the `return` keyword is used.
+要从函数中返回值，需使用`return`关键字。
 
-The return type of the function will automatically be determined by the value returned.
+函数的返回类型将根据返回值自动确定。
 
 ```rust
 fn get_value() {
@@ -198,9 +198,9 @@ std::print("{}", get_value()); // 1234
 
 ### Pattern views
 
-When using the placement syntax inside of functions or function statements in the global scope (such as `if` , `for`, or `while` statements), a view of that data is created instead.
+在全局作用域内的函数或函数语句（如`if`、`for`或`while`语句）中使用放置语法时，系统会创建该数据的视图。
 
-A view acts very similar to a placed pattern - you can access and pass that value around as if it was a placed variable. However, it will not generate an output pattern like a regular placement would.
+视图的行为与放置模式极为相似——您可以像访问和传递放置变量那样操作该值。但与常规放置不同，它不会生成输出模式。
 
 ```rust
 fn read_u32(u32 address) {
@@ -214,7 +214,7 @@ std::print("{}", read_u32(0x1234)); // Prints the value at address 0x1234 format
 
 ### User-defined Literals
 
-User-defined Literals are ultimately syntactic sugar for function calls which in some cases is easier to read than regular function calls. To create one, simply define a function whose name starts with an underscore and takes a single character.
+用户定义的字面量本质上是函数调用的语法糖，在某些情况下比常规函数调用更易于阅读。要创建此类字面量，只需定义一个以下划线开头且仅接受单个字符作为参数的函数即可。
 
 ```rust
 fn _literal(u32 value) {
@@ -224,7 +224,7 @@ fn _literal(u32 value) {
 u32 two_times = 123_literal; // two_times = 246
 ```
 
-It's also possible to define user-defined literals that take in multiple parameters. In this case, the value the literal is applied to is passed in as the first parameter and the remaining ones are passed as the second and following parameters.
+同样可以定义接受多个参数的用户自定义字面量。此时，字面量所作用的值作为第一个参数传递，其余参数则作为第二个及后续参数传递。
 
 ```rust
 fn _literal(u32 value, u32 multiplier) {
@@ -234,4 +234,4 @@ fn _literal(u32 value, u32 multiplier) {
 u32 three_times = 123_literal(3); // three_times = 369
 ```
 
-Any built-in type can be used as the first parameter. This allows user-defined literals to be used with integers, floats, character literals and strings.
+任何内置类型均可作为第一个参数使用。这使得用户定义的字面量能够与整数、浮点数、字符字面量和字符串配合使用。
