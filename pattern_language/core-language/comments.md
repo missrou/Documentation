@@ -1,10 +1,10 @@
-# Comments
+# 注释
 
-The Pattern Language, just like most other programming languages, supports comments. A comment is a piece of text that is ignored by the evaluator. Comments are useful for documenting your code, and for temporarily disabling code.
+模式语言与大多数编程语言一样，支持注释功能。注释是指被解释器忽略的文本片段。注释既可用于记录代码说明，也可用于临时禁用代码。
 
 ### Single line comments
 
-Single line comments start with a double slash (//) and continue to the end of the line.
+单行注释以双斜杠 (//) 开头，并延续至行尾。
 
 ```cpp
 // This is a single line comment
@@ -12,7 +12,7 @@ Single line comments start with a double slash (//) and continue to the end of t
 
 ### Multi line comments
 
-Multi line comments start with /\* and end with \*/.
+多行注释以 /\* 开头，以 \*/ 结束。
 
 ```cpp
 /* This is
@@ -20,11 +20,11 @@ Multi line comments start with /\* and end with \*/.
     line comment */
 ```
 
-### Doc comments
+### 文档注释
 
-Doc comments are used to provide extra documentation for the whole pattern, individual functions or types.
+文档注释用于为整个模式、单个函数或类型提供额外的文档说明。
 
-There are multiple ways to write doc comments:
+编写文档注释有多种方式：
 
 ```rust
 /*!
