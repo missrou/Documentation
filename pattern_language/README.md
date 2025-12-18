@@ -1,10 +1,10 @@
 ---
-description: A custom C++ and Rust inspired scripting language for analyzing binary data.
+描述：一种受C++和Rust启发的定制脚本语言，用于分析二进制数据。
 ---
 
 # Pattern Language
 
-The Pattern Language is a C++ and Rust inspired DSL that was developed for the\
-[ImHex Hex Editor](https://app.gitbook.com/o/xfl3734L2rDBS2sD53Zi/s/xj7sbzGbHH260vbpZOu1/) to easily define and decode binary structures found in files or memory.
+模式语言是一种受C++和Rust启发的领域特定语言（DSL），专为\
+[ImHex Hex Editor](https://app.gitbook.com/o/xfl3734L2rDBS2sD53Zi/s/xj7sbzGbHH260vbpZOu1/) 平台开发，用于轻松定义和解码文件或内存中存在的二进制结构。.
 
-If you want to contribute towards improving this documentation, the source documents are available at [https://github.com/WerWolv/Documentation](https://github.com/WerWolv/Documentation) under `pattern_language`.
+若您希望为改进本文档贡献力量，源文档可于以下地址获取： [https://github.com/WerWolv/Documentation](https://github.com/WerWolv/Documentation) 在栏目 `pattern_language`中.
