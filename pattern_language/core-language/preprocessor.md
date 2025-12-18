@@ -1,6 +1,6 @@
 # Preprocessor
 
-The preprocessor works in a similar fashion to the one found in C/C++. All lines that start with a `#` symbol are treated as preprocessor directives and get evaluated before the syntax of the rest of the program gets analyzed.
+预处理器的运作方式与C/C++中的类似。所有以`#`符号开头的行都被视为预处理指令，并在分析程序其余部分的语法之前进行评估。
 
 ### `#define`
 
@@ -8,15 +8,14 @@ The preprocessor works in a similar fashion to the one found in C/C++. All lines
 #define MY_CONSTANT 1337
 ```
 
-This directive causes a find-and-replace to be performed. In the example above, the label `MY_CONSTANT` will be replaced with `1337` throughout the entire program without doing any sort of lexical analysis. This means the directive will be replaced even within strings. Additionally, if multiple defines are used, later find-and-replaces can modify expressions that got altered by previous ones.
-
+该指令将执行查找替换操作。在上例中，标签`MY_CONSTANT`将在整个程序中被替换为`1337`，且不进行任何词法分析。这意味着即使在字符串内部，该指令也会被替换。此外，若使用多个定义，后续的查找替换操作可能会修改先前操作已改变的表达式。
 ### `#include`
 
 ```cpp
 #include <mylibrary.hexpat>
 ```
 
-This directive allows inclusion of other files into the current program. The content of the specified file gets copied directly into the current file. See [importing modules](importing-modules.md#include-directive) for more info.
+此指令允许将其他文件包含到当前程序中。指定文件的内容将直接复制到当前文件中。更多信息请参阅 [importing modules](importing-modules.md#include-directive) .
 
 ### `#ifdef`, `#ifndef`, `#endif`
 
@@ -26,15 +25,14 @@ This directive allows inclusion of other files into the current program. The con
 #endif
 ```
 
-These preprocessor instructions can check if a given define has been defined already. `#ifdef` includes all the content between it and its closing `#endif` instruction if the define given to it exists. `#ifndef` works the same as `#ifdef` but includes all its content if the given define does not exist.
-
+这些预处理指令可检查给定定义是否已被定义。`#ifdef` 在给定定义存在时包含其与闭合指令 `#endif` 之间的所有内容。`#ifndef` 与 `#ifdef` 功能相同，但在给定定义不存在时包含其所有内容。
 ### `#error`
 
 ```cpp
 #error "Something went wrong!"
 ```
 
-Throws a error during the preprocessing phase if reached. This is mostly helpful in combination with `#ifdef` and `#ifndef` to check on certain conditions.
+若在预处理阶段遇到该指令，将抛出错误。该功能主要配合`#ifdef`和`#ifndef`使用，用于检查特定条件。
 
 ### `#pragma`
 
@@ -42,86 +40,87 @@ Throws a error during the preprocessing phase if reached. This is mostly helpful
 #pragma endian big
 ```
 
-Pragmas are hints to the runtime to tell it how it should treat certain things.
+编译指示是给运行时的提示，用于告知其如何处理某些事项。
 
-The following pragmas are available:
+可用的编译指示如下：
 
 #### `endian`
 
 **Possible values:** `big`, `little`, `native` **Default:** `native`
 
-This pragma overwrites the default endianness of all variables declared in the file.
+此指令覆盖文件中所有变量声明的默认字节序。
 
 #### `MIME`
 
 **Possible values:** Any MIME Type string **Default:** `Unspecified`
 
-This pragma specifies the MIME type of files that can be interpreted by this pattern. This is useful for automatically loading relevant patterns when a file is opened. The MIME type of the loaded file will be matched against the MIME type specified here and if it matches, a popup will appear asking if this pattern should get loaded.
+此指令用于指定可由该模式解析的文件的MIME类型。当文件被打开时，此功能可自动加载相关模式。系统会将加载文件的MIME类型与此处指定的类型进行比对，若匹配成功，则弹出提示框询问是否加载该模式。
 
 #### `magic`
 
 **Possible values:** A byte pattern in the form of `[ AA BB ?? D? ] @ 0x00`
 
-This pragma specifies a binary pattern that is used to check the loaded data in order to determine if this pattern can be used to parse this data.
+此指令用于指定二进制模式，该模式用于检查加载的数据，以确定该模式是否可用于解析此数据。
 
-The pattern consists of two parts. The first one is a list of hexadecimal values where ? denotes a wildcard. This list is checked in order against the data, nibbles that are marked as wildcards are ignored and not compared. The second part is the hexadecimal value after the @ symbol which is interpreted as an address where to look for that pattern in the data.
+该模式包含两部分：第一部分是十六进制值列表，其中?表示通配符。该列表按顺序与数据进行比对，标记为通配符的半字节将被忽略且不参与比较。第二部分是@符号后面的十六进制值，该值被解释为在数据中查找该模式的起始地址。
 
 #### `base_address`
 
 **Possible values:** Any integer value **Default:** `0x00`
 
-This pragma automatically adjusts the base address of the currently loaded file. This is useful for patterns that depend on a file being loaded at a certain address in memory.
+此指令会自动调整当前加载文件的基址。对于依赖文件在内存中特定地址加载的模式而言，此功能非常有用。
+
 
 #### `eval_depth`
 
 **Possible values:** Any integer value **Default:** `32`
 
-This pragma sets the evaluation depth of recursive functions and types. To prevent the runtime from crashing when evaluating infinitely deep recursive types, execution will stop prematurely if it detects recursion that is too deep. This pragma can adjust the maximum depth allowed.
+此指令用于设定递归函数和类型的求值深度。为防止运行时在评估无限深递归类型时崩溃，若检测到递归过深，执行将提前终止。此指令可调整允许的最大深度。
 
 #### `array_limit`
 
 **Possible values:** Any integer value **Default:** `0x1000`
 
-This pragma sets the maximum number of entries allowed in an array. To prevent the runtime using up a lot of memory when creating huge arrays, execution will stop prematurely if an array with too many entries is evaluated. This pragma can adjust the maximum number of entries allowed.
+此指令用于设定数组允许的最大条目数量。为防止运行时创建超大数组时消耗过多内存，若评估的数组条目过多，程序将提前终止执行。该指令可调整允许的最大条目数量。
 
 #### `pattern_limit`
 
 **Possible values:** Any integer value **Default:** `0x2000`
 
-This pragma sets the maximum number of patterns allowed to be created. To prevent the runtime using up a lot of memory when creating a lot of patterns, execution will stop prematurely if too many patterns exist simultaneously. This is similar to the `array_limit` pragma but catches smaller, nested arrays as well.
+此指令用于设定允许创建的模式最大数量。为防止运行时在创建大量模式时耗尽内存，当同时存在的模式数量过多时，程序将提前终止执行。该指令与`array_limit`指令功能相似，但同时也能捕获较小的嵌套数组。
 
 #### `once`
 
-This pragma takes no value and simply marks the current file to only be includable once. This means if the file is being included multiple times, for example when it’s being included explicitly first and later on again inside of another included file, it will only be included the first time.
+此指令不接受任何参数，仅标记当前文件仅可被包含一次。这意味着若文件被多次包含（例如先被显式包含，随后又在另一个包含文件中再次被包含），则仅执行首次包含操作。
 
-This is mainly useful to prevent functions, types and variables that are defined in that file, from being defined multiple times.
+此特性主要用于防止文件中定义的函数、类型和变量被重复定义。
 
-The `import` statement and `#include` directive each keep a separate list of files marked with `#pragma once`. That means that a set of headers using one system for importing should stick to it. See [Importing Modules](importing-modules.md) for more info.
+`import`语句与`#include`指令各自维护着独立的`#pragma once`标记文件列表。因此采用统一导入机制的头文件集应保持一致性。更多信息请参阅[Importing Modules](importing-modules.md) .
 
 #### `bitfield_order`
 
 **Possible values:** `right_to_left`, `left_to_right` **Default:** `right_to_left`
 
-This pragma overrides the default bitfield bit order. It works the same as the `[[left_to_right]]` and `[[right_to_left]]` attributes but is automatically applied to all created bitfields.
+此指令覆盖默认位域的位序。其作用与`[[left_to_right]]`和`[[right_to_left]]`属性相同，但会自动应用于所有创建的位域。
 
 #### `debug`
 
-This pragma enables the debug mode in the evaluator. This causes the following things to happen:
+此指令用于在评估器中启用调试模式，将触发以下行为：
 
-* Any scope push and pop will be logged to the console
-* Any memory access will be logged to the console
-* Any creation and assignment of variables will be logged to the console
-* Any function call and their parameters will be logged to the console
-* If an error occurs, the patterns that were already placed in memory will not be deleted
+* 任何作用域的压入与弹出操作均会记录至控制台
+* 任何内存访问操作均会记录至控制台
+* 任何变量的创建与赋值操作均会记录至控制台
+* 任何函数调用及其参数均会记录至控制台
+* 若发生错误，已存入内存的模式将不会被删除
 
 #### `author`
 
 **Possible values:** Any string value **Default:** `Unspecified`
 
-This pragma specifies the pattern author shown in the [Content Store](../../imhex/misc/content-store.md). If you need to specify multiple authors, use only one `#pragma author`.
+此指令用于指定[Content Store](../../imhex/misc/content-store.md).中显示的模式作者。若需指定多位作者，仅使用一个`#pragma author`指令。
 
 #### `description`
 
 **Possible values:** Any string value **Default:** `Unspecified`
 
-This pragma specifies the description shown for the pattern in the [Content Store](../../imhex/misc/content-store.md).
+此指令用于指定在模式中显示的描述。 [Content Store](../../imhex/misc/content-store.md).
