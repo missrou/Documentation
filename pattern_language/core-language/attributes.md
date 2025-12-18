@@ -1,6 +1,6 @@
-# Attributes
+# 属性
 
-Attributes are special directives that can add extra configuration to individual variables and types.
+属性是特殊指令，可为单个变量和类型添加额外配置。
 
 ```rust
 struct RGBA8 {
@@ -11,111 +11,111 @@ struct RGBA8 {
 ```
 
 {% hint style="info" %}
-Attributes can either have no arguments: `[[attribute_name]]`Or one or more arguments: `[[attribute_name("arg1", 1234)]]`
+属性可以不带参数: `[[attribute_name]]`或一个或多个参数: `[[attribute_name("arg1", 1234)]]`
 {% endhint %}
 
-It’s also possible to apply multiple attributes to the same variable or type: `[[attribute1, attribute2(1234)]]`
+同样可以为同一个变量或类型应用多个属性。: `[[attribute1, attribute2(1234)]]`
 
-### Variable Attributes
+### 可变属性
 
 {% hint style="info" %}
-Variable attributes may also be applied to types directly to cause all patterns created from them to have those attributes applied.
+可变属性也可直接应用于类型，从而使从该类型派生出的所有模式均继承这些属性。
 
-To access members of the variable the attribute is applied to, use the `this` keyword. Some attributes expect an optional pattern as argument. If this is not necessary, you can use the `null` keyword instead.
+要访问变量所应用属性的成员，请使用 `this` 关键字。某些属性允许将可选模式作为参数。若无需指定模式，可使用 `null` 关键字替代。
 {% endhint %}
 
 #### `[[color("RRGGBB")]]`
 
-Changes the color the variable is being highlighted in the hex editor.
+更改十六进制编辑器中突出显示变量的颜色。
 
 #### `[[name("new_name")]]`
 
-Changes the display name of the variable in the pattern data view without affecting the rest of the program.
+在模式数据视图中更改变量的显示名称，同时不影响程序的其余部分。
 
 #### `[[comment("text")]]`
 
-Adds a comment to the current variable that is displayed when hovering over it in the pattern data view.
+在模式数据视图中，将当前变量悬停时显示的注释添加至该变量。
 
 #### `[[format("formatter_function_name")]]` / `[[format_read("formatter_function_name")]]`
 
-Overrides the default display value formatter with a custom function. The function requires a single argument representing the value to be formatted (e.g `u32` if this attribute was applied to a variable of type `u32`) and return a string which will be displayed in place of the default value.
+使用自定义函数覆盖默认显示值格式化器。该函数需要一个参数，该参数代表待格式化的值（例如，若此属性应用于类型为`u32`的变量，则参数为`u32`），并返回一个字符串，该字符串将替代默认值进行显示。
 
-It’s also possible to return a pattern or value from this function which will then be default formatted using the default pattern language rules.
+该函数还可返回模式或值，这些内容将根据默认模式语言规则进行默认格式化。
 
 #### `[[format_write("formatter_function_name")]]`
 
-Allows to specify a custom write formatter function for a type. The function takes in a string of the input provided by the user and returns any pattern that will be turned into bytes and gets written to the address of that pattern.
+允许为类型指定自定义写入格式化函数。该函数接收用户提供的字符串输入，并返回任何可转换为字节并写入该模式地址的模式。
 
 #### `[[format_entries("formatter_function_name")]]` / `[[format_read_entries("formatter_function_name")]]`
 
-Can be applied to arrays and works the same as the `[[format_read]]` attribute but overrides the default display value formatter of all array entries instead of just the array pattern itself.
+可应用于数组，其作用与`[[format_read]]`属性相同，但会覆盖所有数组条目的默认显示值格式化器，而非仅覆盖数组模式本身。
 
 #### `[[format_write_entries("formatter_function_name")]]`
 
-Can be applied to arrays and works the same as the `[[format_write]]` attribute but overrides the default value write formatter of all array entries instead of just the array pattern itself.
+可应用于数组，其作用与`[[format_write]]`属性相同，但会覆盖所有数组条目的默认值写入格式器，而非仅覆盖数组模式本身。
 
 #### `[[hidden]]`
 
-Prevents a variable from being shown in the pattern data view but still be usable from the rest of the program.
+防止变量在模式数据视图中显示，但仍可在程序的其余部分使用。
 
 #### `[[inline]]`
 
-Can only be applied to Arrays and Struct-like types. Visually inlines all members of this variable into the parent scope. Useful to flatten the displayed tree structure and avoid unnecessary indentation while keeping the pattern structured.
+仅适用于数组和结构体类型的变量。将该变量的所有成员可视化地内联到父作用域中。此操作有助于展平显示的树形结构，避免不必要的缩进，同时保持模式的结构化。
 
 #### `[[transform("transformer_function_name")]]`
 
-Specifies a function that will be executed to preprocess the value read from that variable before it’s accessed through the dot syntax (`some_struct.some_value`). The function requires a single argument representing the original value that was read (e.g `u32` if this attribute was applied to a variable of type `u32`) and return a value that will be returned instead.
+指定一个函数，用于在通过点语法（`some_struct.some_value`）访问该变量之前，对从该变量读取的值进行预处理。该函数需要一个参数，该参数代表原始读取的值（例如，如果此属性应用于类型为`u32`的变量，则为`u32`），并返回一个将被替换返回的值。
 
 #### `[[transform_entries("transformer_function_name")]]`
 
-Can be applied to arrays and works the same as the `[[transform]]` attribute but overrides the transform function of all array entries instead of just the array pattern itself.
+可应用于数组，其作用与`[[transform]]`属性相同，但会覆盖数组中所有条目的转换函数，而非仅覆盖数组模式本身。
 
 #### `[[pointer_base("pointer_base_function_name")]]`
 
-Specifies a function that will be executed to preprocess the address of the pointer this attribute was applied to. The function requires a single argument representing the original pointer address that was read (e.g `u32` if this attribute was applied to a pointer with size type `u32`) and return the offset the pointer should point to instead.
+指定一个用于预处理应用此属性的指针地址的函数。该函数需要一个参数，该参数表示读取到的原始指针地址（例如，如果此属性应用于大小类型为`u32`的指针，则为`u32`），并返回指针应指向的新偏移量。
 
-There’s a number of predefined pointer helper functions available in the standard library (`std::ptr`) to rebase pointers off of different places.
+标准库（`std::ptr`）中提供了一系列预定义的指针辅助函数，用于将指针重新定位到不同位置。
 
 #### `[[no_unique_address]]`
 
-A variable marked by this attribute will be placed in memory but not increment the current cursor position.
+标记此属性的变量将被放置在内存中，但不会递增当前光标位置。
 
 #### `[[single_color]]`
 
-Forces all members of the struct, union or array to be highlighted using the same color instead of individual ones
+强制结构体、联合体或数组的所有成员使用相同颜色高亮显示，而非各自单独高亮。
 
 ### Type Attributes
 
 #### `[[static]]`
 
-The Pattern Language by default optimizes arrays of built-in types so they don’t use up as much memory and are evaluated quicker.
+模式语言默认会优化内置类型的数组，使其占用更少的内存并加快评估速度。
 
-This same optimization can be applied to custom data types when they are marked with this attribute to tell the runtime the size and layout of this type will always be the same.
+同样的优化也可应用于自定义数据类型，当它们被标记此属性时，可告知运行时该类型的大小和布局始终保持不变。
 
-**However** if the layout of the type this is applied to is not static or you're using functions or function statements (such as local variables) in them, highlighing and decoding of the data will be wrong! The behaviour is undefined and can change with any release. Do not depend on it!
+**注意** 如果应用此类型的布局不是静态的，或者你在其中使用了函数或函数语句（如局部变量），数据的高亮显示和解码将会出错！该行为未定义且可能随版本变更，请勿依赖此功能！
 
 #### `[[bitfield_order(ordering, size)]]`
 
-This attribute changes the ordering and alignment of the fields within the bitfield it is applied to.
+此属性会改变所应用位域内字段的排序和对齐方式。
 
-`ordering` can either be `std::core::BitfieldOrder::LeastToMostSignificant` or `std::core::BitfieldOrder::MostToLeastSignificant`. By default, if no custom bitfield ordering is set, if the bitfield is little endian, it orders the fields from least to most significant bit. If it's big endian, it orders the fields from most to least significant bit.
+`排序方式`可以是`std::core::BitfieldOrder::LeastToMostSignificant`或`std::core::BitfieldOrder::MostToLeastSignificant`。默认情况下，若未设置自定义位域排序，当位域采用小端序时，字段按从低位到高位排序；若采用大端序，则按从高位到低位排序。
 
-Using most to least significant also requires you to specify the full size of the bitfield so the runtime knows where to start placing the fields.
+使用从最高有效位到最低有效位的方式，还要求您指定位域的完整大小，以便运行时知道从何处开始放置字段。
 
 #### `[[sealed]]`
 
-This attribute can be applied to structs, unions and bitfields. It causes tools that display Patterns in some way to not display the implementation details (such as children of this type) anymore but instead treat it like a built-in type. This is mainly useful for making custom types that should decode and display the bytes in a custom format using the `[[format]]` attribute.
+此属性可应用于结构体、联合体和位域。它会使以某种方式显示模式的工具不再显示实现细节（例如该类型的子类型），而是将其视为内置类型。这主要适用于创建自定义类型，这些类型应使用`[[format]]`属性以自定义格式解码并显示字节。
 
 #### `[[highlight_hidden]]`
 
-Works the same as the `[[hidden]]` attribute but only hides the highlighting of the variable and not the variable in the pattern data view.
+与`[[hidden]]`属性功能相同，但仅隐藏变量的高亮显示，不会在模式数据视图中隐藏该变量。
 
 #### `[[export]]`
 
-This attribute allows exporting of pattern local variables. By default pattern local variables will not end up in the output and are only used to store temporary values within patterns. Adding this attribute to one will make it end up in the output the same as a regular variable.
+此属性允许导出模式局部变量。默认情况下，模式局部变量不会出现在输出中，仅用于在模式内存储临时值。为某个变量添加此属性后，它将像常规变量一样出现在输出中。
 
-Very useful if a value needs to be pre-processed before being output.
+如果需要在输出前对值进行预处理，这将非常有用。
 
 **`[[fixed_size(size)]]`**
 
-Can be used to force a struct to be a specific size. When applied to a struct whose size is smaller than `size`, it is padded out to be that exact size. If the struct was larger than the size, an error will be thrown instead.
+可用于强制结构体具有特定大小。当应用于小于`size`的结构体时，会进行填充以精确达到该大小。若结构体原本大于该大小，则会抛出错误。
