@@ -1,16 +1,16 @@
 ---
-description: Built-in primitive data types
+说明: 内置基本数据类型
 ---
 
 # Data Types
 
-Types are the fundamental entity defining how a certain region of memory should be interpreted, formatted and displayed.
+类型是定义特定内存区域应如何解释、格式化和显示的基本实体。
 
 ### Built-in Types
 
 #### Unsigned Integers
 
-Unsigned integer types represent regular binary numbers. They are displayed as a integer value ranging from $$0$$ to $$(2^{8*Size}-1)$$.
+无符号整数类型表示常规二进制数。它们以整数值形式显示，取值范围为 $$0$$ to $$(2^{8*Size}-1)$$.
 
 | Name   | Size     |
 | ------ | -------- |
@@ -25,7 +25,7 @@ Unsigned integer types represent regular binary numbers. They are displayed as a
 
 #### Signed Integers
 
-Signed integer types represent signed binary numbers in Two's Complement representation. They are displayed as a integer value ranging from $$-(2^{8*Size}-1)$$ to $$(2^{8*Size}-1) - 1$$
+带符号整数类型采用二进制补码表示法表示带符号二进制数。它们以整数值的形式呈现，取值范围为 $$-(2^{8*Size}-1)$$ to $$(2^{8*Size}-1) - 1$$
 
 | Name   | Size     |
 | ------ | -------- |
@@ -40,7 +40,7 @@ Signed integer types represent signed binary numbers in Two's Complement represe
 
 #### Floating Points
 
-Floating Point types represent a floating pointer number. On most modern platforms this is IEEE754 but it's not guaranteed.
+浮点类型表示浮点数。在多数现代平台上，其遵循IEEE754标准，但并非绝对保证。
 
 | Name     | Size                                   |
 | -------- | -------------------------------------- |
@@ -54,14 +54,14 @@ Floating Point types represent a floating pointer number. On most modern platfor
 | `char`   | 1 Byte  | ASCII Character                                         |
 | `char16` | 2 Bytes | UTF-16 Wide Character                                   |
 | `bool`   | 1 Byte  | Boolean value `true`/`false`                            |
-| `str`    | Varying | Heap allocated String, can only be used in functions    |
-| `auto`   | Varying | Automatic type inferring, can only be used in functions |
+| `str`    | Varying | 堆分配的字符串，仅可在函数中使用                           |
+| `auto`   | Varying | 自动类型推断，仅限于函数内部使用                           |
 
 ### Endianness
 
-By default all built-in types are interpreted in native endianness. Meaning if the runtime is running on a little endian machine, all types will be treated as little endian. On a big endian machine they will be treated as big endian.
+默认情况下，所有内置类型均按本机字节序进行解释。这意味着若运行时环境运行于小端机型，所有类型将被视为小端序；若运行于大端机型，则被视为大端序。
 
-However it’s possible to override this default on a global, per-type or per-variable basis. Simply prefix any type with the `le` for little endian or `be` for big endian keyword:
+不过，可以在全局、按类型或按变量的基础上覆盖此默认设置。只需在任何类型前添加前缀 `le`（表示小端序）或 `be`（表示大端序）即可：
 
 ```rust
 le u32 myUnsigned;  // Little endian 32 bit unsigned integer
@@ -69,11 +69,11 @@ be double myDouble; // Big endian 64 bit double precision floating point
 s8 myInteger;       // Native endian 8 bit signed integer
 ```
 
-Refer to [the endianness pragma](preprocessor.md#endian) for setting the global endianness.
+有关设置全局字节序的信息，请参阅[the endianness pragma](preprocessor.md#endian) .
 
 ### Literals
 
-Literals are fixed values representing a specific constant. The following literals are available:
+字面量是表示特定常量的固定值。可用的字面量如下：
 
 | Type                    | Example             |
 | ----------------------- | ------------------- |
@@ -91,9 +91,9 @@ Literals are fixed values representing a specific constant. The following litera
 
 ### Enums
 
-Enums are a data type that consist of a set of named constants of a specific size.
+枚举是一种数据类型，由一组具有特定大小的命名常量组成。
 
-They are particularly useful for associating meaning to a value found in memory. Defining an enum works similar to other C-like languages. The first entry in the enum will be associated the value `0x00` and each following one will count up from there. If an entry has an explicit value assigned to it, every entry following it will continue counting from there.
+枚举类型特别适用于为存储在内存中的值赋予含义。其定义方式与其他C类语言类似：枚举中的首个条目将关联值`0x00`，后续条目依次递增计数。若某个条目被显式赋予特定值，则该值之后的所有条目将从该值开始继续计数。
 
 ```rust
 enum StorageType : u16 {
@@ -103,13 +103,13 @@ enum StorageType : u16 {
 };
 ```
 
-The type following the colon after the enum name declares the enum’s underlying type and can be any built-in datatype. This type only affects the enum’s size.
+枚举名后冒号后的类型声明了枚举的底层类型，可以是任何内置数据类型。该类型仅影响枚举的大小。
 
 <figure><img src="../.gitbook/assets/enums/data.png" alt=""><figcaption></figcaption></figure>
 
 #### Enum Range
 
-Sometimes, a range of values can refer to the same enum value, in which case enum ranges can be useful. Enum ranges will cause all values inside of the specified range to be visualized as that enum entry. When using a range value in a mathematical expression, it will yield the start value of the range.
+有时，一组数值可能指向同一个枚举值，此时枚举范围便能发挥作用。枚举范围会将指定范围内的所有值统一显示为该枚举项。在数学表达式中使用范围值时，其结果将为该范围的起始值。
 
 ```rust
 enum NumberType : u16 {
@@ -121,11 +121,11 @@ enum NumberType : u16 {
 
 ### Arrays
 
-Arrays are a contiguous collection of one or more values of the same type.
+数组是由一个或多个相同类型的值组成的连续集合。
 
 #### Constant sized array
 
-A constant size can be specified by entering the number of entries in the square brackets. This value may also name another variable which will be read to get the size.
+可通过在方括号内输入条目数量来指定常量大小。该值也可命名另一个变量，系统将读取该变量以获取大小。
 
 ```rust
 u32 array[100] @ 0x00;
@@ -133,7 +133,7 @@ u32 array[100] @ 0x00;
 
 #### Unsized array
 
-It’s possible to leave the size of the array empty in which case it will keep on growing until it hits an entry which is all zeros.
+数组的大小可以留空，这种情况下它会持续增长，直到遇到一个全为零的条目为止。
 
 ```rust
 char string[] @ 0x00;
@@ -141,7 +141,7 @@ char string[] @ 0x00;
 
 #### Loop sized array
 
-Sometimes arrays need to keep on growing as long as a certain condition is met. The following array will grow until it hits a byte with the value `0xFF`.
+有时数组需要在满足特定条件时持续增长。以下数组将持续增长，直至遇到值为`0xFF`的字节。
 
 ```rust
 u8 string[while(std::mem::read_unsigned($, 1) != 0xFF)] @ 0x00;
@@ -149,13 +149,13 @@ u8 string[while(std::mem::read_unsigned($, 1) != 0xFF)] @ 0x00;
 
 #### Optimized arrays
 
-Big arrays take a long time to compute and take up a lot of memory. Because of this, arrays of built-in types are automatically optimized to only create one instance of the array type and move it around accordingly.
+大型数组的计算耗时长且占用大量内存。因此，内置类型的数组会自动优化为仅创建一个数组类型的实例，并根据需要进行移动操作。
 
-The same optimization can be used for custom types by marking them with the `[[static]]` attribute. However this can only be done if the custom type always has the same size and same memory layout. Otherwise results may be invalid!
+同样的优化也可用于自定义类型，只需为其添加`[[static]]`属性标记。但此操作仅适用于始终具有相同大小和内存布局的自定义类型。否则结果可能无效！
 
 #### Strings
 
-`char` and `char16` types act differently when they are used in an array. Instead of displaying as an array of characters, they are displayed as a String instead; terminated by a null byte in the following example.
+`char` 和 `char16` 类型在数组中使用时表现不同。它们不会显示为字符数组，而是以字符串形式呈现；如下例所示，字符串末尾以空字节终止。
 
 ```rust
 char myCString[];
@@ -164,21 +164,21 @@ char16 myUTF16String[];
 
 ### Pointers
 
-Pointers are variables that treat their value as an address to find the address of the value they are pointing to.
+指针是一种变量，其值被视为地址，用于查找其所指向值的地址。
 
 ```rust
 u16 *pointer : u32 @ 0x08;
 ```
 
-This code declares a pointer whose address is a `u32` and points to a `u16`.
+此代码声明了一个指针，其地址类型为`u32`，指向一个`u16`类型变量。
 
 ```rust
 u32 *pointerToArray[10] : s16 @ 0x10;
 ```
 
-This code declares a pointer to an array of 10 `u32`'s and the pointer has a size of `s16`
+此代码声明了一个指向10个`u32`数组的指针，该指针的大小为`s16`。
 
-The address will always be treated as absolute. Make sure to set the base address of your data correctly in order for pointers to work as intended.
+该地址将始终被视为绝对地址。请确保正确设置数据的基址，以使指针按预期工作。
 
 <figure><img src="../.gitbook/assets/pointers/data.png" alt=""><figcaption></figcaption></figure>
 
@@ -186,7 +186,7 @@ The address will always be treated as absolute. Make sure to set the base addres
 
 ### Bitfields
 
-Bitfields are similar to structs but they address individual, unaligned bits instead. They can be used to decode bit flags or other types that use less than 8 bits to store a value.
+位域与结构体类似，但它们处理的是未对齐的独立位。可用于解码位标志或其他使用少于8位存储值的类型。
 
 ```rust
 bitfield Permission {
@@ -196,15 +196,15 @@ bitfield Permission {
 };
 ```
 
-Each entry inside of a bitfield consists of a field name followed by a colon and the size of the field in bits. A single field cannot occupy more than 64 bits.
+位域中的每个条目由字段名、冒号以及该字段的位数组成。单个字段最多可占用64位。
 
 <figure><img src="../.gitbook/assets/bitfields/data.png" alt=""><figcaption></figcaption></figure>
 
-Bitfields can also be nested or used as arrays inside of other bitfields. In this case, alignment rules do not apply within the bitfield but only once the outer-most bitfield is placed within a struct type.
+位域也可嵌套使用，或作为数组置于其他位域内部。此时，对齐规则仅适用于最外层位域置于结构体类型内部的情况，而非位域内部。
 
 #### Bitfield field types
 
-By default, every bitfield field is interpreted as a unsigned value, however it's also possible to interpret it as a signed number, boolean or enum as well.
+默认情况下，每个位域字段都被解释为无符号值，但也可以将其解释为有符号数、布尔值或枚举值。
 
 ```cpp
 bitfield TestBitfield {
@@ -216,7 +216,7 @@ bitfield TestBitfield {
 };
 ```
 
-Besides this, it's also possible to interleave regular types with bitfield fields
+此外，还可以在常规类型中交错使用位域字段。
 
 ```rust
 bitfield InterleavedBitfield {
@@ -225,12 +225,11 @@ bitfield InterleavedBitfield {
     u16 regular_value;
 };
 ```
-
-Using full sized fields in a bitfield will always cause the current bit offset within the bitfield to be aligned to the next full byte boundary.
+在位域中使用完整字段时，当前位偏移量总会被对齐到下一个完整字节边界。
 
 #### Padding
 
-It’s also possible to insert padding in between fields using the padding syntax.
+也可以使用填充语法在字段之间插入填充内容。
 
 ```rust
 bitfield Flags {
@@ -241,13 +240,13 @@ bitfield Flags {
 };
 ```
 
-This inserts a 4 bit padding between field `b` and `c`.
+这会在字段`b`和`c`之间插入4位填充。
 
 ### Structs
 
-Structs are data types that bundle multiple variables together into one single type.
+结构体是一种数据类型，它将多个变量捆绑成单一类型。
 
-A very simple struct for a 3D vector of floats might look like this:
+一个用于存储浮点数3D向量的非常简单的结构体可能如下所示：
 
 ```rust
 struct Vector3f {
@@ -255,7 +254,7 @@ struct Vector3f {
 };
 ```
 
-Placing it into memory using the placement syntax will place all members of the struct directly adjacent to each other starting at the specified address.
+使用定位语法将其放入内存时，结构体中的所有成员将从指定地址开始直接相邻放置。
 
 <figure><img src="../.gitbook/assets/structs/data.png" alt=""><figcaption></figcaption></figure>
 
@@ -263,7 +262,7 @@ Placing it into memory using the placement syntax will place all members of the 
 
 #### Padding
 
-By default there’s no padding between struct members. This is not always desired so padding can be inserted manually if needed using the `padding` keyword.
+默认情况下，结构体成员之间不存在填充。由于这种情况并非总是理想，因此可通过`padding`关键字手动插入填充。
 
 ```rust
 struct Vector3f {
@@ -275,13 +274,13 @@ struct Vector3f {
 };
 ```
 
-This code will insert a 4 byte padding between the members `x` and `y` as well as a 8 byte padding between `y` and `z`.
+该代码将在成员`x`和`y`之间插入4字节填充，并在`y`和`z`之间插入8字节填充。
 
 <figure><img src="../.gitbook/assets/structs/padding.png" alt=""><figcaption></figcaption></figure>
 
 #### Inheritance
 
-Inheritance allows copying all members of the parent struct into the child struct, making them available there.
+继承允许将父结构体的所有成员复制到子结构体中，使其在子结构体中可用。
 
 ```rust
 struct Parent {
@@ -294,11 +293,11 @@ struct Child : Parent {
 };
 ```
 
-The struct `Child` now contains `type`, `value` and `string`.
+结构体 `Child` 现在包含 `type`、`value` 和 `string`。
 
 #### Anonymous members
 
-It’s possible to declare variables inside of structs or unions without giving them a name. This is useful when you know that there’s a pattern of a certain type at this offset but the name of the variable is not known yet or isn’t important.
+在结构体或联合体内声明变量时，可以不为其命名。当你知道某个偏移量处存在特定类型的模式，但变量名称尚未确定或不重要时，这种方式就很有用。
 
 ```rust
 struct MyStruct {
@@ -310,13 +309,13 @@ struct MyStruct {
 
 #### Conditional parsing
 
-The pattern language provides advanced features that allow for much more complex struct definitions, these features are detailed on the [Control Flow](control-flow.md) page.
+模式语言提供了高级特性，允许定义更为复杂的结构，这些特性在以下文档中有详细说明： [Control Flow](control-flow.md) .
 
 ### Unions
 
-Unions are similar to structs in that they bundle multiple variables together into a new type, however instead of these variables being placed consecutively, they all share the same start address.
+联合体与结构体类似，它们将多个变量捆绑成一种新类型，但这些变量并非连续放置，而是共享相同的起始地址。
 
-This can be useful to interpret and inspect data as multiple different types as shown here:
+这有助于解释和检查多种不同类型的数据，如以下所示：
 
 ```rust
 union Converter {
@@ -331,7 +330,7 @@ union Converter {
 
 ### Using declarations
 
-Using declarations are useful to give existing types a new name and optionally add extra specifiers to them. The following code creates a new type called `Offset` which is a big endian 32 bit unsigned integer. It can be used in place of any other type now.
+使用声明可为现有类型赋予新名称，并可选地为其添加额外限定符。以下代码创建了一个名为`Offset`的新类型，该类型为大端序32位无符号整数。现在它可替代任何其他类型使用。
 
 ```rust
 using Offset = be u32;
@@ -339,13 +338,13 @@ using Offset = be u32;
 
 #### Forward declaration
 
-When having two types that recursively reference each other, it’s required to forward declare one of the types so all types are known to the runtime when needed.
+当存在两种类型相互递归引用时，必须对其中一种类型进行前向声明，以便在运行时需要时能够识别所有类型。
 
-This can be done with the `using TypeName;` syntax.
+这可以通过 `using TypeName;` 语法实现。
 
 ```rust
-// Tell the language that there will be a type named B in the future so if it encounters
-// a variable with this type, it has to postpone the parsing until the type has been declared
+// 告知语言系统未来将存在名为B的类型，因此当它遇到
+// 具有此类型的变量，必须推迟解析直至该类型被声明
 using B;
 
 struct A {
@@ -365,9 +364,9 @@ struct B {
 
 ### Templates
 
-Templates can be used to substitute parts of a custom type’s member’s types with placeholders which can then be defined later on when instantiating this type.
+模板可用于将自定义类型的成员类型替换为占位符，这些占位符可在后续实例化该类型时进行定义。
 
-Templates can be used with `struct`, `union` and `using` declarations:
+模板可用于`struct`、`union`和`using`声明：
 
 ```rust
 struct MyTemplateStruct<T> {
@@ -382,7 +381,7 @@ union MyTemplateStruct<Type1, Type2> {
 using MyTemplateUsing<Type1> = MyTemplateStruct<Type1, u32>;
 ```
 
-These templates can then be used to create concrete types:
+这些模板随后可用于创建具体类型：
 
 ```rust
 MyTemplateStruct<u32, u64> myConcreteStruct @ 0x00;
@@ -390,9 +389,9 @@ MyTemplateStruct<u32, u64> myConcreteStruct @ 0x00;
 
 #### Non-Type Template Parameters
 
-It’s also possible to use templates to pass expressions to types. Examples for this are numbers, strings or variables (including custom types).
+同样可以使用模板将表达式传递给类型。例如数字、字符串或变量（包括自定义类型）。
 
-To mark a template parameter as a non-type template parameter, use the `auto` keyword.
+要将模板参数标记为非类型模板参数，请使用 `auto` 关键字。
 
 ```rust
 struct Array<T, auto Size> {
@@ -404,7 +403,7 @@ Array<u32, 0x100> array @ 0x00;
 
 #### Pattern local variables
 
-It’s possible to declare local variables inside of patterns that don’t show up in the final type but can be used to store information for later use. To declare a local variable, simply initialize it with a value using the `=` operator.
+在模式内部可以声明局部变量，这些变量不会出现在最终类型中，但可用于存储后续使用的信息。声明局部变量时，只需使用`=`运算符为其赋值即可。
 
 ```rust
 struct MyType {
