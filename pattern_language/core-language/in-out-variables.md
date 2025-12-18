@@ -1,14 +1,14 @@
 # In / Out Variables
 
-In and Out variables are a way to pass config or input data into the pattern and read result data back out from the pattern.
+输入和输出变量是将配置或输入数据传递至模式，并从模式中读取结果数据的一种方式。
 
-Each `in` and `out` variable creates an entry in the Settings tab of the Pattern Editor view. `in` variables create an input field, `out` variables create a label.
+每个`in`和`out`变量都会在模式编辑器视图的“设置”选项卡中创建一个条目。`in`变量创建输入字段，`out`变量创建标签。
 
-Before executing the pattern, the user can now enter a value in the input field of the `in` variable. This value will be copied into the corresponding `in` variable before the pattern is executed.
+在执行模式之前，用户可在`in`变量的输入字段中输入值。该值将在模式执行前被复制到对应的`in`变量中。
 
-Likewise, once the pattern has finished executing, whatever value has been written to the `out` variable will be displayed in the label.
+同样地，模式执行完毕后，写入`out`变量的任何值都将显示在标签中。
 
-The following code shows a simple pattern that reads in the value of `inputValue`, multiplies it by two and then writes it back into `outputValue`.
+以下代码展示了一个简单模式：读取`inputValue`的值，将其乘以二，然后写回`outputValue`。
 
 ```rust
 u32 inputValue in;
