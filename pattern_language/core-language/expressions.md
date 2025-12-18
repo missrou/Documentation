@@ -1,18 +1,18 @@
-# Expressions
+# 表达式
 
-### Operators
+### 操作符
 
 | Operator      | Description                                                                   |
 | ------------- | ----------------------------------------------------------------------------- |
-| `a + b`       | Addition                                                                      |
-| `a - b`       | Subtraction                                                                   |
-| `a * b`       | Multiplication                                                                |
-| `a / b`       | Division                                                                      |
-| `a % b`       | Modulus                                                                       |
-| `a >> b`      | Bitshift right                                                                |
-| `a << b`      | Bitshift left                                                                 |
-| `~a`          | Bitwise NOT                                                                   |
-| `a & b`       | Bitwise AND                                                                   |
+| `a + b`       | 加                                                                            |
+| `a - b`       | 减                                                                            |
+| `a * b`       | 乘                                                                            |
+| `a / b`       | 除                                                                            |
+| `a % b`       | 求余                                                                          |
+| `a >> b`      | 右移位                                                                        |
+| `a << b`      | 左位移                                                                        |
+| `~a`          | 位运算非                                                                      |
+| `a & b`       | 位与运算                                                                      |
 | `a \| b`      | Bitwise OR                                                                    |
 | `a ^ b`       | Bitwise XOR                                                                   |
 | `a == b`      | Equality comparison                                                           |
@@ -29,11 +29,11 @@
 | `(a)`         | Parenthesis                                                                   |
 | `function(a)` | [Function](functions.md) call |
 
-`a`, `b` and `c` can be any numeric literal or another expression.
+`a`、`b` 和 `c` 可以是任何数字字面量或另一个表达式。
 
 ### Type Operators
 
-Type Operators are operators that work on types. They can only be used on a variable, not on a mathematical expression.
+类型运算符是对类型进行操作的运算符。它们只能用于变量，不能用于数学表达式。
 
 | Operator        | Description                                  |
 | --------------- | -------------------------------------------- |
@@ -41,11 +41,11 @@ Type Operators are operators that work on types. They can only be used on a vari
 | `sizeof(a)`     | Size of variable                             |
 | `typenameof(a)` | String representation of the variable's type |
 
-`a` can be a variable, either by naming it directly or finding it through member access
+`a` 可以是变量，既可以通过直接命名，也可以通过成员访问来获取。
 
 **PROVIDER OPERATORS**
 
-`a` can also be replaced with the `$` operator to query information about the loaded data
+`a` 也可以用 `$` 运算符替代，用于查询已加载数据的相关信息。
 
 | Operator       | Description                     |
 | -------------- | ------------------------------- |
@@ -54,7 +54,7 @@ Type Operators are operators that work on types. They can only be used on a vari
 
 ### String Operators
 
-String operators are any operators acting on strings directly.
+字符串运算符是指直接作用于字符串的任何运算符。
 
 | Operator       | Description                    |
 | -------------- | ------------------------------ |
@@ -69,9 +69,9 @@ String operators are any operators acting on strings directly.
 
 ### Member Access
 
-Member access is the act of accessing members inside a struct, union or bitfield or referencing the index of an array to access its value.
+成员访问是指访问结构体、联合体或位域内部的成员，或通过数组索引访问其值的行为。
 
-Below the simplest operations are shown, however they may be concatenated and extended indefinitely as suitable.
+以下展示最基础的操作，但它们可根据需要无限组合与扩展。
 
 | Operation       | Access type                                                                           |
 | --------------- | ------------------------------------------------------------------------------------- |
@@ -80,7 +80,7 @@ Below the simplest operations are shown, however they may be concatenated and ex
 | `parent.var`    | Accessing a variable inside the parent struct or union of the current struct or union |
 | `this`          | Referring to the current pattern. Can only be used inside of a struct or union        |
 
-The `parent` operation refers to the caller struct or union, not the "parent struct" in the Inheritance section. It can also be used in a function:
+`parent` 操作指的是调用者结构体或联合体，而非继承部分中的“父结构体”。它也可用于函数中：
 
 ```rust
 struct Field {
@@ -99,7 +99,7 @@ Struct s @ 0;  // Pattern Data shows s > fields > version
 
 ### `$` Dollar Operator
 
-The Dollar Operator is a special operator which expands to the current offset within the current pattern.
+`$`是一种特殊运算符，它展开为当前模式内的当前偏移量。
 
 ```rust
 #pragma base_address 0x00
@@ -109,13 +109,13 @@ u32 x @ 0x00;
 std::print($); // 4
 ```
 
-It’s also possible to assign a value to the dollar operator to change the current cursor position.
+也可以为`$`赋值来改变当前光标位置。
 
 ```rust
 $ += 0x100;
 ```
 
-The dollar operator can also be used to access single bytes of the main data.
+`$`也可用于访问主数据的单个字节。
 
 ```rust
 std::print($[0]); // Prints the value of the byte at address 0x00
@@ -123,7 +123,7 @@ std::print($[0]); // Prints the value of the byte at address 0x00
 
 ### Casting Operator
 
-The cast operator changes the type of an expression into another.
+转换运算符将一个表达式的类型转换为另一个类型。
 
 ```rust
 fn test(float x) {
