@@ -1,10 +1,10 @@
 # Control flow
 
-The pattern language offers multiple ways to modify the behaviour of the parser on the go based on the values already parsed, allowing you to parse complex formats with relative ease.
+模式语言提供了多种方式，能够根据已解析的值实时调整解析器的行为，从而让您能够相对轻松地解析复杂格式。
 
 ### Conditionals
 
-In the pattern language, not all structs need to be the same size or have the same layout. It’s possible to change what variables are getting declared based on the value of other variables.
+在模式语言中，并非所有结构体都需要相同大小或相同布局。根据其他变量的值，可以动态改变要声明的变量。
 
 ```rust
 enum Type : u8 {
@@ -41,9 +41,9 @@ struct Packet {
 Packet packet[3] @ 0xF0;
 ```
 
-This code looks at the first byte of each `Packet` to determine its type so it can decode the body of the packet accordingly using the correct types defined in `PacketA`, `PacketB` and `PacketC`.
+该代码通过检查每个`Packet`的首字节来确定其类型，从而能够根据`PacketA`、`PacketB`和`PacketC`中定义的正确类型，相应地解码数据包的主体内容。
 
-Conditionals like this can be used in Structs, Unions and Bitfields
+此类条件语句可用于结构体、联合体和位域中。
 
 <figure><img src="../.gitbook/assets/conditionals/data.png" alt=""><figcaption></figcaption></figure>
 
@@ -51,7 +51,7 @@ Conditionals like this can be used in Structs, Unions and Bitfields
 
 ### Match statements
 
-Match statements are a more powerful alternative to conditionals. They allow you to more easily match against multiple values and have more forms of comparison logic available.
+匹配语句是条件语句的更强大替代方案。它们能更轻松地匹配多个值，并提供更多形式的比较逻辑。
 
 ```rust
 enum Type : u8 {
@@ -85,7 +85,7 @@ struct Packet {
 Packet packet[3] @ 0xF0;
 ```
 
-But the match statement allows for much more than just a simple switch. It also allows you to match multiple values at once and use more complex comparison logic. Alongside this is the `_` wildcard that matches any value, and thus also creates the default case.
+但匹配语句的功能远不止简单的开关。它还允许同时匹配多个值，并使用更复杂的比较逻辑。此外，`_` 通配符可匹配任意值，因此也构成了默认情况。
 
 ```rust
 struct Packet {
@@ -102,7 +102,7 @@ struct Packet {
 Packet packet[3] @ 0xF0;
 ```
 
-Also the match statement has special comparisons that allow for more batchful comparisons. The _…_ operator allows you to match a range of values, and the `|` operator allows to match between multiple values.
+此外，匹配语句还具备特殊比较功能，支持更批量化的比较操作。`_…_` 运算符可用于匹配数值范围，而 `|` 运算符则支持在多个数值间进行匹配。
 
 ```rust
 struct Packet {
@@ -121,11 +121,11 @@ Packet packet[3] @ 0xF0;
 
 ### Pattern control flow
 
-The most basic form of conditional parsing are array control flow statements, `break` and `continue`. These allow you to stop the parsing of the array or skip elements based on conditions in the currently parsed item instance.
+条件解析最基础的形式是数组控制流语句`break`和`continue`。它们允许你根据当前解析项实例中的条件，停止对数组的解析或跳过元素。
 
 #### Break
 
-When a break is reached, the current array creation process is terminated. This means, the array keeps all entries that have already been parsed, including the one that’s being currently processed, but won’t expand further, even if the requested number of entries hasn’t been reached yet.
+当遇到分隔符时，当前数组创建过程将终止。这意味着数组将保留所有已解析的条目（包括当前正在处理的条目），但不会继续扩展——即使请求的条目数量尚未达到。
 
 ```rust
 struct Test {
@@ -140,15 +140,15 @@ struct Test {
 Test tests[1000] @ 0x00;
 ```
 
-`break` can also be used in regular patterns to prematurely stop parsing of the current pattern.
+`break` 也可用于常规模式中，用于提前终止当前模式的解析。
 
-If the pattern where `break` is being used in is nested inside of another pattern, only evaluation of the current pattern is stopped and continues in the parent struct after the definition of the current pattern.
+若包含`break`的模式嵌套在另一个模式中，则仅当前模式的评估被终止，并在当前模式定义之后继续执行父结构中的代码。
 
 #### Continue
 
-When a continue is reached, the currently evaluated array entry gets evaluated to find next array entry offset but then gets discarded. This can be used to conditionally exclude certain array entries from the list that are either invalid or shouldn’t be displayed in the pattern data list while still scanning the entire range the array would span.
+当遇到继续语句时，当前评估的数组项会被计算以确定下一个数组项的偏移量，但随后会被丢弃。这可用于有条件地排除某些无效数组项或不应显示在模式数据列表中的项，同时仍能扫描数组覆盖的整个范围。
 
-This can for instance be used in combination with [In/Out Variables](in-out-variables.md) to easily filter array items.
+例如，这可以与 [In/Out Variables](in-out-variables.md) 结合使用，轻松过滤数组项。
 
 ```rust
 struct Test {
@@ -163,13 +163,13 @@ struct Test {
 Test tests[1000] @ 0x00;
 ```
 
-`continue` can also be used in regular patterns to discard the pattern entirely.
+`continue` 也可用于常规模式中，以完全跳过该模式。
 
-If the pattern where `continue` is being used in is nested inside of another pattern, only the current pattern is discarded and evaluation continues in the parent struct after the definition of the current pattern.
+若包含`continue`的模式嵌套在另一个模式中，则仅当前模式被丢弃，评估将在当前模式定义后的父结构体中继续进行。
 
 #### The Searcher Pattern
 
-The Searcher Pattern is a useful design pattern for placing a struct pattern at a dynamically determined (searched for) offset. It combines an array spanning the area under search (the haystack), and a wrapper struct which places the wanted pattern upon finding the needle.
+搜索器模式是一种有用的设计模式，用于将结构体模式放置在动态确定（搜索到的）偏移量处。它结合了覆盖搜索区域的数组（干草堆），以及在找到目标模式后将其放置在目标位置的包装结构体。
 
 ```rust
 struct Command {
@@ -197,15 +197,15 @@ PatternSearcher search[while(!std::mem::eof())] @ 0x3FFF;
 
 ### Return statements
 
-Return statements outside of functions can be used to prematurely terminate execution of the current program.
+函数外部的返回语句可用于提前终止当前程序的执行。
 
-Evaluation stops at the location the `return` statement was executed. All patterns that have been evaluated up until this point will be finished up and placed into memory before execution halts.
+评估在执行`return`语句的位置停止。在此之前已评估的所有模式都将被处理完毕并存入内存，随后执行才终止。
 
 ### Try-Catch statements
 
-Try-Catch blocks are used to try placing down patterns that might error and then handling that error.
+Try-Catch代码块用于尝试放置可能出错的模式，然后处理该错误。
 
-The following code will try to place all the patterns in the `try` block and if any error occurred while doing so, it will discard the patterns it tried to place, revert the cursor back to where it was at the start of the `try` block and then execute the `catch` block instead.
+以下代码将尝试将所有模式放入`try`代码块中。若在此过程中发生任何错误，则会丢弃尝试放置的模式，将光标回退至`try`代码块开头的位置，并转而执行`catch`代码块。
 
 ```rust
 struct Test {
