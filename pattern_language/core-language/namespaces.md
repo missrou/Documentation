@@ -4,7 +4,7 @@ description: Isolating functions and types
 
 # Namespaces
 
-Namespaces provide a way to encapsulate and group multiple similar types together. They also allow for multiple types in different namespaces to be named the same without interfering with each other.
+命名空间提供了一种封装和分组多个相似类型的机制。它们还允许不同命名空间中的多个类型使用相同名称而互不干扰。
 
 ```cpp
 namespace abc {
@@ -21,11 +21,11 @@ using Type = abc::Type;
 Type type2 @ 0x200;
 ```
 
-To access a type within a namespace, the scope resolution operator `::` is used. In the example above, to access the type `Type` inside the namespace `abc`, `abc::Type` is used.
+要访问命名空间内的类型，需使用作用域解析运算符 `::`。在上例中，要访问命名空间 `abc` 内的类型 `Type`，应使用 `abc::Type`。
 
 ## Nested and Reopened Namespaces
 
-You can also define **nested namespaces** and reopen them later. This is especially useful for organizing internal constants and helper logic related to the main types, while keeping them encapsulated.
+您还可以定义**嵌套命名空间**并在后续重新打开它们。这对于组织与主类型相关的内部常量和辅助逻辑尤为有用，同时能保持它们的封装性。
 
 ```cpp
 namespace game {
